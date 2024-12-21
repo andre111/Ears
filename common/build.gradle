@@ -49,7 +49,6 @@ jar {
 task apiJar(type: Jar) {
 	from sourceSets.api.output
 	
-	baseName 'ears'
 	archiveClassifier = 'api'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -58,7 +57,6 @@ task apiJar(type: Jar) {
 task apiSourcesJar(type: Jar) {
 	from sourceSets.api.allSource
 	
-	baseName 'ears'
 	archiveClassifier = 'api-sources'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
