@@ -1,32 +1,13 @@
-buildscript {
-	repositories {
-		maven { url "https://teavm.org/maven/repository/" }
-		maven { url "https://plugins.gradle.org/m2/" }
-	}
-	dependencies {
-		classpath "org.teavm:teavm-tooling:0.7.0-dev-1192"
-		classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
-	}
-}
-
 apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.johnrengelman.shadow'
 
-sourceCompatibility = targetCompatibility = '1.6'
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 repositories {
-	// Gradle will throw a "helpful" error about the dependencies not supporting Java 6 if not
-	// forced to ignore metadata
-	maven { url 'https://repo1.maven.org/maven2/'; metadataSources { artifact() } }
-	maven { url 'https://libraries.minecraft.net/'; metadataSources { artifact() } }
-	maven { url 'https://repo.spongepowered.org/maven/'; metadataSources { artifact() } }
+	maven { url 'https://repo1.maven.org/maven2/' }
+	maven { url 'https://libraries.minecraft.net/' }
+	maven { url 'https://repo.spongepowered.org/maven/' }
 	maven { url 'https://teavm.org/maven/repository/' }
-}
-configurations {
-	teavm
-	agentShade
-	vlegacyShade
 }
 sourceSets {
 	api {
@@ -36,33 +17,13 @@ sourceSets {
 		compileClasspath += sourceSets.api.output
 		compileClasspath += sourceSets.api.compileClasspath
 	}
-	dummy {}
 	main {
 		compileClasspath += sourceSets.normal.output
 		compileClasspath += sourceSets.normal.compileClasspath
 		runtimeClasspath += sourceSets.normal.output
 		runtimeClasspath += sourceSets.normal.runtimeClasspath
 	}
-	legacy {
-		compileClasspath += sourceSets.main.output
-		compileClasspath += sourceSets.main.compileClasspath
-		compileClasspath += sourceSets.dummy.output
-		runtimeClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
-	vlegacy {
-		compileClasspath += sourceSets.legacy.compileClasspath
-		compileClasspath += sourceSets.legacy.output
-		runtimeClasspath += sourceSets.legacy.runtimeClasspath
-		runtimeClasspath += sourceSets.legacy.output
-	}
 	mixin {
-		compileClasspath += sourceSets.main.output
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
-	js {
 		compileClasspath += sourceSets.main.output
 		compileClasspath += sourceSets.main.compileClasspath
 		runtimeClasspath += sourceSets.main.output
@@ -74,20 +35,13 @@ sourceSets {
 		runtimeClasspath += sourceSets.main.output
 		runtimeClasspath += sourceSets.main.runtimeClasspath
 	}
-	agent {
-		compileClasspath += sourceSets.main.output
-		compileClasspath += sourceSets.main.compileClasspath
-		compileClasspath += sourceSets.dummy.output
-		runtimeClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
 }
 
 jar {
 	from sourceSets.normal.output
 	from sourceSets.main.output
 
-	classifier ''
+	archiveClassifier = ''
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
@@ -96,7 +50,7 @@ task apiJar(type: Jar) {
 	from sourceSets.api.output
 	
 	baseName 'ears'
-	classifier 'api'
+	archiveClassifier = 'api'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
@@ -105,19 +59,7 @@ task apiSourcesJar(type: Jar) {
 	from sourceSets.api.allSource
 	
 	baseName 'ears'
-	classifier 'api-sources'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task mixinLegacyJar(type: Jar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.mixin.output
-	from sourceSets.legacy.output
-	
-	classifier 'mixin-legacy'
+	archiveClassifier = 'api-sources'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
@@ -129,47 +71,7 @@ task mixinModernJar(type: Jar) {
 	from sourceSets.mixin.output
 	from sourceSets.modern.output
 	
-	classifier 'mixin-modern'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task mixinVLegacyJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.legacy.output
-	from sourceSets.vlegacy.output
-	from sourceSets.mixin.output
-	
-	configurations = [project.configurations.vlegacyShade]
-	relocate 'com.grack.nanojson', 'com.unascribed.ears.common.legacy.nanojson'
-	exclude 'module-info.class'
-	
-	classifier 'mixin-vlegacy'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task legacyJar(type: Jar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.legacy.output
-	
-	classifier 'legacy'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task vlegacyJar(type: Jar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.legacy.output
-	from sourceSets.vlegacy.output
-	
-	classifier 'vlegacy'
+	archiveClassifier = 'mixin-modern'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
@@ -180,177 +82,21 @@ task modernJar(type: Jar) {
 	from sourceSets.normal.output
 	from sourceSets.modern.output
 	
-	classifier 'modern'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task agentLegacyJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.legacy.output
-	from sourceSets.agent.output
-	
-	configurations = [project.configurations.agentShade]
-	relocate 'org.objectweb.asm', 'com.unascribed.ears.common.agent.mini.asm'
-	exclude 'module-info.class'
-	
-	classifier 'agent-legacy'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task agentModernJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.modern.output
-	from sourceSets.agent.output
-	
-	configurations = [project.configurations.agentShade]
-	relocate 'org.objectweb.asm', 'com.unascribed.ears.common.agent.mini.asm'
-	exclude 'module-info.class'
-	
-	classifier 'agent-modern'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task agentVLegacyJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.legacy.output
-	from sourceSets.vlegacy.output
-	from sourceSets.agent.output
-	
-	configurations = [project.configurations.agentShade, project.configurations.vlegacyShade]
-	relocate 'org.objectweb.asm', 'com.unascribed.ears.common.agent.mini.asm'
-	relocate 'com.grack.nanojson', 'com.unascribed.ears.common.legacy.nanojson'
-	exclude 'module-info.class'
-	
-	classifier 'agent-vlegacy'
+	archiveClassifier = 'modern'
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 build.dependsOn apiJar
 build.dependsOn apiSourcesJar
-build.dependsOn mixinLegacyJar
 build.dependsOn mixinModernJar
-build.dependsOn mixinVLegacyJar
-build.dependsOn legacyJar
-build.dependsOn vlegacyJar
 build.dependsOn modernJar
-build.dependsOn agentLegacyJar
-build.dependsOn agentModernJar
-build.dependsOn agentVLegacyJar
 
 dependencies {
 	implementation('org.spongepowered:mixin:0.7-SNAPSHOT') {
 		transitive = false
 	}
-	compileOnly('org.teavm:teavm-classlib:0.7.0-dev-1196') {
-		exclude group: 'com.google.code.gson'
-		exclude group: 'com.jcraft'
-		exclude group: 'joda-time'
-	}
 	
 	implementation 'org.ow2.asm:asm:9.2'
 	implementation 'org.ow2.asm:asm-tree:9.2'
-	agentShade 'org.ow2.asm:asm:9.2'
-	agentShade 'org.ow2.asm:asm-tree:9.2'
-	
-	
-	teavm 'org.teavm:teavm-classlib:0.7.0-dev-1196'
-}
-
-import org.teavm.tooling.TeaVMTool
-import org.teavm.tooling.TeaVMTargetType
-import org.teavm.tooling.sources.DirectorySourceFileProvider
-import org.teavm.tooling.TeaVMProblemRenderer
-import org.teavm.tooling.ConsoleTeaVMToolLog
-
-task teavm {
-	dependsOn compileJsJava
-	inputs.dir file('src')
-	outputs.dir file('build/teavm')
-	doFirst {
-		file('build/teavm').mkdirs()
-		def tool = new TeaVMTool()
-		tool.targetDirectory = file('build/teavm')
-		tool.addSourceFileProvider(new DirectorySourceFileProvider(file('src/api/java')))
-		tool.addSourceFileProvider(new DirectorySourceFileProvider(file('src/main/java')))
-		tool.addSourceFileProvider(new DirectorySourceFileProvider(file('src/js/java')))
-		tool.sourceMapsFileGenerated = true
-		tool.mainClass = 'com.unascribed.ears.common.EarsJS'
-		tool.entryPointName = 'initCommon'
-		tool.targetType = TeaVMTargetType.JAVASCRIPT
-		tool.log = new ConsoleTeaVMToolLog(true)
-		tool.obfuscated = false
-		def urls = []
-		urls.add(file('build/classes/java/api').toURI().toURL())
-		urls.add(file('build/classes/java/main').toURI().toURL())
-		urls.add(file('build/classes/java/js').toURI().toURL())
-		configurations.teavm.files.each {
-			urls.add(it.toURI().toURL())
-		}
-		def ucl = new URLClassLoader(urls.toArray(new URL[0]), TeaVMTool.class.classLoader)
-		tool.classLoader = ucl
-		tool.generate()
-		TeaVMProblemRenderer.describeProblems(tool.getDependencyInfo().getCallGraph(), tool.getProblemProvider(), tool.log)
-	}
-}
-task closure(type: Exec) {
-	dependsOn teavm
-	inputs.file file('build/teavm/classes.js')
-	outputs.file file('build/teavm/classes.min.js')
-	commandLine 'google-closure-compiler', '-O', 'SIMPLE', '--js', 'build/teavm/classes.js', '--js_output_file', 'build/teavm/classes.min.js', '--source_map_include_content', '--create_source_map', 'build/teavm/classes.min.js.map'
-}
-
-compileJava.doFirst {
-	'./replace-version.sh src/main/java/com/unascribed/ears/common/EarsVersion.java'.execute()
-}
-publishing {
-	repositories {
-		maven {
-			url "file:./build/maven"
-		}
-		if (project.hasProperty("publish-username")) {
-			maven {
-				url "https://repo-api.sleeping.town/"
-				credentials {
-					username project.getProperty("publish-username")
-					password project.getProperty("publish-password")
-				}
-			}
-		}
-	}
-	publications {
-		api(MavenPublication) {
-			groupId = 'com.unascribed'
-			artifactId = 'ears-api'
-			version = file('../version.txt').text.trim()
-
-			artifact source: apiJar, classifier: ''
-			artifact source: apiSourcesJar, classifier: 'sources'
-		}
-		common(MavenPublication) {
-			groupId = 'com.unascribed'
-			artifactId = 'ears-common'
-			version = file('../version.txt').text.trim()
-
-			artifact source: jar, classifier: ''
-			artifact source: vlegacyJar, classifier: 'vlegacy'
-			artifact source: agentVLegacyJar, classifier: 'agent-vlegacy'
-			artifact source: mixinVLegacyJar, classifier: 'mixin-vlegacy'
-			artifact source: legacyJar, classifier: 'legacy'
-			artifact source: agentLegacyJar, classifier: 'agent-legacy'
-			artifact source: mixinLegacyJar, classifier: 'mixin-legacy'
-			artifact source: modernJar, classifier: 'modern'
-			artifact source: agentModernJar, classifier: 'agent-modern'
-			artifact source: mixinModernJar, classifier: 'mixin-modern'
-		}
-	}
 }
