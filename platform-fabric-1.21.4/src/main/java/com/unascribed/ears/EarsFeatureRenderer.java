@@ -409,17 +409,5 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 		public double getZ() {
 			return peer.z;
 		}
-
-		@Override
-		public float getHorizontalSpeed() {
-			// TODO: unimplemented, not used by modified common code
-			return 0;
-		}
-
-		@Override
-		public float getStride() {
-			// TODO: unimplemented, not used by modified common code
-			return 0;
-		}
 	};
 }

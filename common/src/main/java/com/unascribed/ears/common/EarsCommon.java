@@ -109,6 +109,7 @@ public class EarsCommon {
 		AlfalfaData a = Alfalfa.read(img);
 		Slice erase = a.data.get("erase");
 		if (erase != null) {
+			@SuppressWarnings("resource")
 			BitInputStream bis = new BitInputStream(new ByteArrayInputStream(erase.toByteArray()));
 			int count = 0;
 			try {

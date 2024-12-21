@@ -160,20 +160,6 @@ public class DebuggingDelegate implements EarsRenderDelegate {
 	}
 
 	@Override
-	public float getHorizontalSpeed() {
-		float t = delegate.getHorizontalSpeed();
-		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER_DELEGATE, "getHorizontalSpeed() -> {}", t);
-		return t;
-	}
-
-	@Override
-	public float getStride() {
-		float t = delegate.getStride();
-		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER_DELEGATE, "getStride() -> {}", t);
-		return t;
-	}
-
-	@Override
 	public boolean isSlim() {
 		boolean b = delegate.isSlim();
 		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER_DELEGATE, "isSlim() -> {}", b);

@@ -232,8 +232,6 @@ public interface EarsRenderDelegate {
 	float getTime();
 	
 	float getLimbSwing();
-	float getHorizontalSpeed();
-	float getStride();
 	
 	float getBodyYaw();
 	

@@ -13,14 +13,12 @@ public class EarsFeatures {
 	private static final EarsFeaturesLookup lookup;
 	static {
 		EarsFeaturesLookup lookupTmp = null;
-		if (!isJs()) {
-			try {
-				lookupTmp = (EarsFeaturesLookup)getLookupImpl();
-			} catch (Throwable t) {
-				t.printStackTrace();
-				System.err.println("[Ears] Failed to load static feature lookup binder");
-				lookupTmp = null;
-			}
+		try {
+			lookupTmp = (EarsFeaturesLookup)getLookupImpl();
+		} catch (Throwable t) {
+			t.printStackTrace();
+			System.err.println("[Ears] Failed to load static feature lookup binder");
+			lookupTmp = null;
 		}
 		if (lookupTmp == null) {
 			lookupTmp = new EarsFeaturesLookup() {
@@ -37,10 +35,6 @@ public class EarsFeatures {
 			};
 		}
 		lookup = lookupTmp;
-	}
-
-	private static boolean isJs() {
-		return false;
 	}
 	
 	private static Object getLookupImpl() throws Throwable {

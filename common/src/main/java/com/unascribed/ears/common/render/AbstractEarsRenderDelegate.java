@@ -19,10 +19,6 @@ import com.unascribed.ears.common.util.Decider;
  * implementing EarsRenderDelegate directly. AbstractEarsRenderDelegate and friends all make various
  * assumptions that are only true within Minecraft itself.
  * 
- * @see com.unascribed.ears.common.legacy.ImmediateEarsRenderDelegate Immediate, for versions with a broken Tesselator and no state or texture manager (e.g. Beta 1.7, 1.2.5)
- * @see com.unascribed.ears.common.legacy.UnmanagedEarsRenderDelegate Unmanaged, for versions without a state manager or texture manager (e.g. 1.4, 1.5)
- * @see com.unascribed.ears.common.legacy.PartiallyUnmanagedEarsRenderDelegate PartiallyUnmanaged, for versions without a state manager (e.g. 1.6, 1.7)
- * @see DirectEarsRenderDelegate Direct, for versions with a state manager (e.g. 1.8, 1.12, 1.14)
  * @see IndirectEarsRenderDelegate Indirect, for versions with the RenderLayer/VertexConsumerProvider abstraction (e.g. 1.15, 1.16)
  * 
  * @param <TPeer> the type of the "render peer"; usually something like AbstractClientPlayer
