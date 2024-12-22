@@ -1,6 +1,6 @@
 package com.unascribed.ears;
 
-import com.unascribed.ears.common.WritableEarsImage;
+import com.unascribed.ears.common.image.WritableEarsImage;
 
 import net.minecraft.client.texture.NativeImage;
 

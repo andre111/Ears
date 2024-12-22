@@ -64,7 +64,7 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 	
 	@Override
 	public void render(MatrixStack m, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState entity, float limbAngle, float limbDistance) {
-		//EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER, "render({}, {}, {}, {}, {})", m, vertexConsumers, light, entity, limbAngle, limbDistance);
+		//EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER, "render({}, {}, {}, {}, {}, {})", m, vertexConsumers, light, entity, limbAngle, limbDistance);
 		delegate.render(m, vertexConsumers, entity, light, LivingEntityRenderer.getOverlay(entity, 0));
 	}
 	
@@ -355,11 +355,13 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 
 		@Override
 		public boolean isWearingBoots() {
+			//TODO: this is not correct, should check for EQUIPPABLE that has actual textures under assetId
 			return peer.equippedFeetStack.getItem() instanceof ArmorItem;
 		}
 
 		@Override
 		public boolean isWearingChestplate() {
+			//TODO: this is not correct, should check for EQUIPPABLE that has actual textures under assetId
 			return peer.equippedChestStack.getItem() instanceof ArmorItem;
 		}
 
