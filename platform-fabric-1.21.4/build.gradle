@@ -28,7 +28,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	
-	modImplementation files('../common/build/libs/ears-common-mixin-modern.jar')
+	implementation(project(path: ':common', configuration: 'mixinModern'))
+	include(project(path: ':common', configuration: 'mixinModern'))
 }
 
 processResources {
@@ -56,6 +57,5 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 jar {
-	from zipTree('../common/build/libs/ears-common-mixin-modern.jar')
 	from "../LICENSE"
 }

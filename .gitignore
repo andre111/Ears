@@ -3,3 +3,5 @@ artifacts
 build-ok
 /.java
 /gallery
+/.gradle/
+/build/

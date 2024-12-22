@@ -9,4 +9,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ears-platform-fabric-1.21.4"
+rootProject.name = "ears"
+
+include('common')
+include('platform-fabric-1.21.4')
