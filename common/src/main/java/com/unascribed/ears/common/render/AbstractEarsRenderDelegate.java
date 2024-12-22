@@ -232,11 +232,6 @@ public abstract class AbstractEarsRenderDelegate<TPeer, TModelPart> implements E
 	}
 	
 	@Override
-	public boolean needsSecondaryLayersDrawn() {
-		return false;
-	}
-	
-	@Override
 	public void setEmissive(boolean emissive) {
 		this.emissive = emissive;
 	}

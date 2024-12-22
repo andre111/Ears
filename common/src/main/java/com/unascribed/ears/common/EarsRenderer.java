@@ -55,9 +55,9 @@ class EarsRenderer {
 			}
 		}
 		
-		if ((features != null && features.enabled) || delegate.needsSecondaryLayersDrawn()) {
+		if (features != null && features.enabled) {
 			// the 1.15+ rendering pipeline introduces nasty transparency sort bugs due to the buffering it does
-			// render in multiple passes to avoid it (third is for armor, fourth is for armor glint)
+			// render in multiple passes to avoid it (first is base skin, second is overlay layer, third is for armor, fourth is for armor glint)
 			delegate.setUp();
 			for (int p = 0; p < 4; p++) {
 				renderInner(features, delegate, p, false);
@@ -102,14 +102,12 @@ class EarsRenderer {
 				drawVanillaCuboid(delegate, 0, 16, 4, 12, 4, 0);
 			delegate.pop();
 		}
-		if (delegate.needsSecondaryLayersDrawn() || drawingEmissive) {
-			if (drawingEmissive) {
-				delegate.push();
-					delegate.anchorTo(BodyPart.HEAD);
-					delegate.translate(0, 1f, 0);
-					drawVanillaCuboid(delegate, 32, 0, 8, 8, 8, 0.5f);
-				delegate.pop();
-			}
+		if (drawingEmissive) {
+			delegate.push();
+				delegate.anchorTo(BodyPart.HEAD);
+				delegate.translate(0, 1f, 0);
+				drawVanillaCuboid(delegate, 32, 0, 8, 8, 8, 0.5f);
+			delegate.pop();
 			delegate.push();
 				delegate.anchorTo(BodyPart.TORSO);
 				delegate.translate(0, 0.5f, 0);

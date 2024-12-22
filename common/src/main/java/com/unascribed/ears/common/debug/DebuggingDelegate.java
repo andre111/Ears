@@ -144,13 +144,6 @@ public class DebuggingDelegate implements EarsRenderDelegate {
 	public Object getPeer() {
 		return delegate.getPeer();
 	}
-	
-	@Override
-	public boolean needsSecondaryLayersDrawn() {
-		boolean b = delegate.needsSecondaryLayersDrawn();
-		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER_DELEGATE, "needsSecondaryLayersDrawn() -> {}", b);
-		return b;
-	}
 
 	@Override
 	public float getLimbSwing() {
