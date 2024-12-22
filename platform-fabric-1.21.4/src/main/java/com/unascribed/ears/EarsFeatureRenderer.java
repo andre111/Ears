@@ -280,12 +280,13 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 		}
 
 		private EquipmentSlot getSlot(TexSource tex) {
-			return Decider.<TexSource, EquipmentSlot>begin(tex)
-					.map(TexSource.HELMET, EquipmentSlot.HEAD)
-					.map(TexSource.CHESTPLATE, EquipmentSlot.CHEST)
-					.map(TexSource.LEGGINGS, EquipmentSlot.LEGS)
-					.map(TexSource.BOOTS, EquipmentSlot.FEET)
-					.orElse(null);
+			return switch(tex) {
+			case TexSource.HELMET -> EquipmentSlot.HEAD;
+			case TexSource.CHESTPLATE -> EquipmentSlot.CHEST;
+			case TexSource.LEGGINGS -> EquipmentSlot.LEGS;
+			case TexSource.BOOTS -> EquipmentSlot.FEET;
+			default -> null;
+			};
 		}
 		
 		private ItemStack getEquippedStack(PlayerEntityRenderState peer, EquipmentSlot slot) {
@@ -340,6 +341,7 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 
 		@Override
 		public boolean isFlying() {
+			//TODO: this does not seem correct
 			return peer.applyFlyingRotation;
 		}
 

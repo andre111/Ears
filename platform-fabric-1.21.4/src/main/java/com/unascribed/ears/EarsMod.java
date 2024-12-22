@@ -1,5 +1,7 @@
 package com.unascribed.ears;
 
+import java.util.UUID;
+
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsFeaturesHolder;
 import com.unascribed.ears.common.EarsFeaturesStorage;
@@ -24,7 +26,7 @@ public class EarsMod implements ClientModInitializer {
 				try {
 					ver = (String)SharedConstants.class.getDeclaredFields()[3].get(null);
 				} catch (Throwable t) {
-					ver = "1.19.3?";
+					ver = "1.21.4?";
 				}
 			}
 			EarsLog.debugva(EarsLog.Tag.PLATFORM, "Initialized - Minecraft {} / Fabric {}; Env={}",
@@ -38,9 +40,12 @@ public class EarsMod implements ClientModInitializer {
 		Identifier skin = peer.skinTextures.texture();
 		AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(skin);
 		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER, "getEarsFeatures(): skin={}, tex={}", skin, tex);
-		if (tex instanceof EarsFeaturesHolder) {
-			EarsFeatures feat = ((EarsFeaturesHolder)tex).getEarsFeatures();
-			EarsFeaturesStorage.INSTANCE.put(peer.name, /*peer.getGameProfile().getId()*/null, feat);
+		if (tex instanceof EarsFeaturesHolder holder) {
+			@SuppressWarnings("resource")
+			UUID uuid = MinecraftClient.getInstance().world.getEntityById(peer.id).getUuid();
+			EarsFeatures feat = holder.getEarsFeatures();
+			EarsFeaturesStorage.INSTANCE.put(peer.name, uuid, feat);
+			
 			if (!peer.invisible) {
 				return feat;
 			}

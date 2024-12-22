@@ -80,11 +80,11 @@ public class EarsRenderer {
 			// the 1.15+ rendering pipeline introduces nasty transparency sort bugs due to the buffering it does
 			// render in multiple passes to avoid it (first is base skin, second is overlay layer, third is for armor, fourth is for armor glint)
 			delegate.setUp();
-			for (int p = 0; p < 4; p++) {
-				renderInner(features, delegate, p, false);
-				if (features != null && features.emissive && p < 2) {
+			for (Pass pass : Pass.values()) {
+				renderInner(features, delegate, pass, false);
+				if (features != null && features.emissive && (pass == Pass.BASE || pass == Pass.OVERLAY)) {
 					delegate.setEmissive(true);
-					renderInner(features, delegate, p, true);
+					renderInner(features, delegate, pass, true);
 					delegate.setEmissive(false);
 				}
 			}
@@ -93,15 +93,15 @@ public class EarsRenderer {
 		}
 	}
 		
-	private static void renderInner(EarsFeatures features, EarsRenderDelegate delegate, int p, boolean drawingEmissive) {
-		if (p == 1 && delegate instanceof IndirectEarsRenderDelegate indirect) {
+	private static void renderInner(EarsFeatures features, EarsRenderDelegate delegate, Pass pass, boolean drawingEmissive) {
+		if (pass == Pass.OVERLAY && delegate instanceof IndirectEarsRenderDelegate indirect) {
 			indirect.beginTranslucent();
 		}
 		delegate.bind(drawingEmissive ? TexSource.EMISSIVE_SKIN : TexSource.SKIN);
 		
 		for(EarsFeature feature : FEATURES) {
-			if(feature.shouldRender(features, delegate, Pass.values()[p], drawingEmissive)) {
-				feature.render(features, delegate, Pass.values()[p], drawingEmissive);
+			if(feature.shouldRender(features, delegate, pass, drawingEmissive)) {
+				feature.render(features, delegate, pass, drawingEmissive);
 			}
 		}
 	}
