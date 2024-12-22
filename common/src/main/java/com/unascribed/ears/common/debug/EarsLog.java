@@ -90,7 +90,6 @@ public class EarsLog {
 	/**
 	 * @return {@code true} if debugging and the given debug tag are enabled
 	 */
-	@SuppressWarnings("unused")
 	public static boolean shouldLog(Tag tag) {
 		return DEBUG && (tag == Tag.COMMON_ALWAYS || ONLY_DEBUG == null || ONLY_DEBUG.contains(tag.toString()));
 	}

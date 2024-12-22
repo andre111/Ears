@@ -11,6 +11,7 @@ import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.api.features.EarsFeatures.TailMode;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
 import com.unascribed.ears.common.debug.EarsLog;
+import com.unascribed.ears.common.image.EarsImage;
 import com.unascribed.ears.common.util.BitInputStream;
 
 public class EarsFeaturesParserV1 {
@@ -31,6 +32,7 @@ public class EarsFeaturesParserV1 {
 		return parse(new ByteArrayInputStream(data.toByteArray()));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static EarsFeatures.Builder parse(InputStream in) {
 		BitInputStream bis = null;
 		try {

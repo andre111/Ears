@@ -11,6 +11,8 @@ import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.api.features.EarsFeatures.TailMode;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
+import com.unascribed.ears.common.image.WritableEarsImage;
+import com.unascribed.ears.common.util.Alfalfa;
 import com.unascribed.ears.common.util.BitOutputStream;
 
 public class EarsFeaturesWriterV1 {

@@ -1,4 +1,4 @@
-package com.unascribed.ears.common;
+package com.unascribed.ears.common.image;
 
 import java.nio.IntBuffer;
 

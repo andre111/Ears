@@ -1,4 +1,4 @@
-package com.unascribed.ears.common;
+package com.unascribed.ears.common.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -9,6 +9,7 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import com.unascribed.ears.api.Slice;
+import com.unascribed.ears.common.image.WritableEarsImage;
 
 /**
  * An extremely minimal PNG writer that puts zero effort into making small files.

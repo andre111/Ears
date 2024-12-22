@@ -11,6 +11,7 @@ import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.api.features.EarsFeatures.TailMode;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
 import com.unascribed.ears.common.debug.EarsLog;
+import com.unascribed.ears.common.image.EarsImage;
 
 class EarsFeaturesParserV0 {
 
@@ -125,6 +126,7 @@ class EarsFeaturesParserV0 {
 			MagicPixel.ORANGE, WingMode.ASYMMETRIC_R
 	);
 
+	@SuppressWarnings("deprecation")
 	public static EarsFeatures.Builder parse(EarsImage img) {
 		EarsLog.debug(EarsLog.Tag.COMMON_FEATURES, "detect(...): Found v0 (Pixelwise) data.");
 		EarMode earMode = getMagicPixel(img, 1, EAR_MODE_BY_MAGIC, EarMode.NONE, "ear mode");
@@ -280,7 +282,6 @@ class EarsFeaturesParserV0 {
 		return b;
 	}
 
-	@SuppressWarnings("unused")
 	static String upperHex32f8Dbg(int col) {
 		return EarsLog.DEBUG ? Integer.toHexString(((col>>24)&0xFF)|0xFF00).substring(2).toUpperCase(Locale.ROOT) : "";
 	}

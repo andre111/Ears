@@ -1,4 +1,4 @@
-package com.unascribed.ears.common;
+package com.unascribed.ears.common.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,8 +16,11 @@ import java.util.Map;
 
 import com.unascribed.ears.api.Slice;
 import com.unascribed.ears.api.features.AlfalfaData;
+import com.unascribed.ears.common.EarsCommon;
 import com.unascribed.ears.common.EarsCommon.Rectangle;
 import com.unascribed.ears.common.debug.EarsLog;
+import com.unascribed.ears.common.image.EarsImage;
+import com.unascribed.ears.common.image.WritableEarsImage;
 
 /**
  * Extra data stored in the alpha channel of forced-opaque areas.

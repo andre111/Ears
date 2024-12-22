@@ -12,6 +12,10 @@ import com.unascribed.ears.api.features.AlfalfaData;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
 import com.unascribed.ears.common.debug.EarsLog;
+import com.unascribed.ears.common.image.EarsImage;
+import com.unascribed.ears.common.image.RawEarsImage;
+import com.unascribed.ears.common.image.WritableEarsImage;
+import com.unascribed.ears.common.util.QDPNG;
 
 public class EarsFeaturesParser {
 	
@@ -42,12 +46,13 @@ public class EarsFeaturesParser {
 			if (bldr == null) {
 				return EarsFeatures.DISABLED;
 			}
+			
+			// validate wing texture, convert 12x12 to 20x16 if needed
 			if (bldr.getWingMode() != EarsFeatures.WingMode.NONE && !alfalfa.data.containsKey("wing")) {
 				EarsLog.debug(EarsLog.Tag.COMMON_FEATURES, "detect(...): Wings are enabled, but there's no wing texture in the alfalfa. Disabling");
 				bldr.wingMode(WingMode.NONE);
 			}
-			// loader will only be null in the Manipulator, which won't give us 12x12 wings
-			if (alfalfa.data.containsKey("wing") && loader != null) {
+			if (alfalfa.data.containsKey("wing")) {
 				try {
 					EarsImage wing = loader.load(alfalfa.data.get("wing").toByteArray());
 					if (wing.getWidth() == 12 && wing.getHeight() == 12) {
@@ -70,7 +75,9 @@ public class EarsFeaturesParser {
 					bldr.wingMode(WingMode.NONE);
 				}
 			}
-			if (bldr.isEmissive() && img instanceof WritableEarsImage && loader != null) {
+			
+			// split into normal and emissive textures if enabled
+			if (bldr.isEmissive() && img instanceof WritableEarsImage) {
 				WritableEarsImage wimg = (WritableEarsImage)img;
 				WritableEarsImage out = wimg.copy();
 				Set<Integer> palette = new HashSet<Integer>();
