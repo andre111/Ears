@@ -62,23 +62,22 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 		EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER, "Constructed");
 	}
 	
-	private PlayerEntityRenderState cachedEntity;
-	
 	@Override
 	public void render(MatrixStack m, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState entity, float limbAngle, float limbDistance) {
 		//EarsLog.debug(EarsLog.Tag.PLATFORM_RENDERER, "render({}, {}, {}, {}, {})", m, vertexConsumers, light, entity, limbAngle, limbDistance);
-		cachedEntity = entity;
 		delegate.render(m, vertexConsumers, entity, light, LivingEntityRenderer.getOverlay(entity, 0));
 	}
 	
 	public void renderLeftArm(MatrixStack m, VertexConsumerProvider vertexConsumers, int light) {
-		if(cachedEntity == null) return;
-		delegate.render(m, vertexConsumers, cachedEntity, light, LivingEntityRenderer.getOverlay(cachedEntity, 0), BodyPart.LEFT_ARM);
+		@SuppressWarnings("resource")
+		PlayerEntityRenderState state = per.getAndUpdateRenderState(MinecraftClient.getInstance().player, 1.0f);
+		delegate.render(m, vertexConsumers, state, light, LivingEntityRenderer.getOverlay(state, 0), BodyPart.LEFT_ARM);
 	}
 	
 	public void renderRightArm(MatrixStack m, VertexConsumerProvider vertexConsumers, int light) {
-		if(cachedEntity == null) return;
-		delegate.render(m, vertexConsumers, cachedEntity, light, LivingEntityRenderer.getOverlay(cachedEntity, 0), BodyPart.RIGHT_ARM);
+		@SuppressWarnings("resource")
+		PlayerEntityRenderState state = per.getAndUpdateRenderState(MinecraftClient.getInstance().player, 1.0f);
+		delegate.render(m, vertexConsumers, state, light, LivingEntityRenderer.getOverlay(state, 0), BodyPart.RIGHT_ARM);
 	}
 
 	private final IndirectEarsRenderDelegate<MatrixStack, VertexConsumerProvider, VertexConsumer, PlayerEntityRenderState, ModelPart> delegate = new IndirectEarsRenderDelegate<>() {
