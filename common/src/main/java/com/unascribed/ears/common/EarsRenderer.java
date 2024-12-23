@@ -1,8 +1,5 @@
 package com.unascribed.ears.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.unascribed.ears.Identified;
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.EarsStateType;
@@ -11,15 +8,6 @@ import com.unascribed.ears.api.registry.EarsInhibitorRegistry;
 import com.unascribed.ears.api.registry.EarsStateOverriderRegistry;
 import com.unascribed.ears.common.debug.DebuggingDelegate;
 import com.unascribed.ears.common.debug.EarsLog;
-import com.unascribed.ears.common.feature.EFChest;
-import com.unascribed.ears.common.feature.EFClaws;
-import com.unascribed.ears.common.feature.EFEars;
-import com.unascribed.ears.common.feature.EFEmissiveSkin;
-import com.unascribed.ears.common.feature.EFEmissiveSkinOverlay;
-import com.unascribed.ears.common.feature.EFHorn;
-import com.unascribed.ears.common.feature.EFSnout;
-import com.unascribed.ears.common.feature.EFTail;
-import com.unascribed.ears.common.feature.EFWings;
 import com.unascribed.ears.common.feature.EarsFeature;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
@@ -31,19 +19,6 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
 import com.unascribed.ears.common.render.IndirectEarsRenderDelegate;
 
 public class EarsRenderer {
-	private static final List<EarsFeature> FEATURES = new ArrayList<>();
-	static {
-		FEATURES.add(new EFEmissiveSkin());
-		FEATURES.add(new EFEmissiveSkinOverlay());
-		FEATURES.add(new EFEars());
-		FEATURES.add(new EFTail());
-		FEATURES.add(new EFClaws());
-		FEATURES.add(new EFHorn());
-		FEATURES.add(new EFSnout());
-		FEATURES.add(new EFChest());
-		FEATURES.add(new EFWings());
-	}
-	
 	/**
 	 * Render all the features described in {@code features} using {@code delegate}.
 	 */
@@ -99,7 +74,7 @@ public class EarsRenderer {
 		}
 		delegate.bind(drawingEmissive ? TexSource.EMISSIVE_SKIN : TexSource.SKIN);
 		
-		for(EarsFeature feature : FEATURES) {
+		for(EarsFeature feature : EarsCommon.FEATURES) {
 			if(feature.shouldRender(features, delegate, pass, drawingEmissive)) {
 				feature.render(features, delegate, pass, drawingEmissive);
 			}

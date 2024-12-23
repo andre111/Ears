@@ -1,10 +1,13 @@
 package com.unascribed.ears.common.feature;
 
+import java.util.List;
+
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.EarAnchor;
 import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.common.EarsRenderer.Pass;
+import com.unascribed.ears.common.config.EFCEnum;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -13,7 +16,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 
 public class EFEars extends AbstractEarsFeature {
 	public EFEars() {
-		super(Pass.BASE, false, EarsFeatureType.EARS);
+		super(Pass.BASE, false, EarsFeatureType.EARS, List.of(new EFCEnum<>("Ears", EarMode.values()), new EFCEnum<>("Ear Anchor", EarAnchor.values())));
 	}
 
 	@Override

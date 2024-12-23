@@ -111,12 +111,12 @@ public class EarsFeatures {
 	public final float chestSize;
 	public final WingMode wingMode;
 	public final boolean animateWings;
-	public final boolean capeEnabled;
-	public final boolean emissive;
-	public final Slice emissiveSkin;
-	public final Slice emissiveWing;
+	public final boolean capeEnabled; //TODO
+	public final boolean emissive; //TODO
+	public final Slice emissiveSkin; //TODO
+	public final Slice emissiveWing; //TODO
 	
-	public final AlfalfaData alfalfa;
+	public final AlfalfaData alfalfa; //TODO
 	
 	private EarsFeatures(Builder builder) {
 		this.enabled = true;
@@ -207,7 +207,97 @@ public class EarsFeatures {
 	public static Builder builder() {
 		return new Builder();
 	}
+	
+	/**
+	 * @deprecated <b>Internal</b>. Do not use.
+	 */
+	@Deprecated
+	public static Builder builder(EarsFeatures features) {
+		Builder builder = new Builder();
+		builder.earMode = features.earMode;
+		builder.earAnchor = features.earAnchor;
+		builder.claws = features.claws;
+		builder.horn = features.horn;
+		builder.tailMode = features.tailMode;
+		builder.tailSegments = features.tailSegments;
+		builder.tailBend0 = features.tailBend0;
+		builder.tailBend1 = features.tailBend1;
+		builder.tailBend2 = features.tailBend2;
+		builder.tailBend3 = features.tailBend3;
+		builder.snoutOffset = features.snoutOffset;
+		builder.snoutWidth = features.snoutWidth;
+		builder.snoutHeight = features.snoutHeight;
+		builder.snoutDepth = features.snoutDepth;
+		builder.chestSize = features.chestSize;
+		builder.wingMode = features.wingMode;
+		builder.animateWings = features.animateWings;
+		builder.capeEnabled = features.capeEnabled;
+		builder.emissive = features.emissive;
+		builder.emissiveSkin = features.emissiveSkin;
+		builder.emissiveWing = features.emissiveWing;
+		builder.alfalfa = features.alfalfa;
+		return builder;
+	}
 
+	/**
+	 * @deprecated <b>Internal</b>. Do not use.
+	 */
+	@Deprecated
+	public boolean getBoolean(String name) {
+		return switch(name) {
+		case "enabled" -> enabled;
+		case "claws" -> claws;
+		case "horn" -> horn;
+		case "animateWings" -> animateWings;
+		case "capeEnabled" -> capeEnabled;
+		case "emissive" -> emissive;
+		default -> throw new IllegalArgumentException("Unknown boolean: "+name);
+		};
+	}
+
+	/**
+	 * @deprecated <b>Internal</b>. Do not use.
+	 */
+	@SuppressWarnings("unchecked")
+	@Deprecated
+	public <E extends Enum<E>> E getEnum(E e) {
+		if(e instanceof EarMode) return (E) earMode;
+		else if(e instanceof EarAnchor) return (E) earAnchor;
+		else if(e instanceof TailMode) return (E) tailMode;
+		else if(e instanceof WingMode) return (E) wingMode;
+		else throw new IllegalArgumentException("Unknown enum: "+e);
+	}
+
+	/**
+	 * @deprecated <b>Internal</b>. Do not use.
+	 */
+	@Deprecated
+	public float getFloat(String name) {
+		return switch(name) {
+		case "tailBend0" -> tailBend0;
+		case "tailBend1" -> tailBend1;
+		case "tailBend2" -> tailBend2;
+		case "tailBend3" -> tailBend3;
+		case "chestSize" -> chestSize;
+		default -> throw new IllegalArgumentException("Unknown float: "+name);
+		};
+	}
+
+	/**
+	 * @deprecated <b>Internal</b>. Do not use.
+	 */
+	@Deprecated
+	public int getInteger(String name) {
+		return switch(name) {
+		case "tailSegments" -> tailSegments;
+		case "snoutOffset" -> snoutOffset;
+		case "snoutWidth" -> snoutWidth;
+		case "snoutHeight" -> snoutHeight;
+		case "snoutDepth" -> snoutDepth;
+		default -> throw new IllegalArgumentException("Unknown integer: "+name);
+		};
+	}
+	
 	public static final class Builder {
 
 		public Builder tailBends(float tailBend0, float tailBend1, float tailBend2, float tailBend3) {
@@ -347,6 +437,48 @@ public class EarsFeatures {
 
 		public Builder alfalfa(AlfalfaData alfalfa) {
 			this.alfalfa = alfalfa;
+			return this;
+		}
+		
+		public Builder setBoolean(String name, boolean value) {
+			switch(name) {
+				case "claws": claws = value; break;
+				case "horn": horn = value; break;
+				case "animateWings": animateWings = value; break;
+				case "capeEnabled": capeEnabled = value; break;
+				case "emissive": emissive = value; break;
+			}
+			return this;
+		}
+		
+		public <E extends Enum<E>> Builder setEnum(E value) {
+			if(value instanceof EarMode em) earMode = em;
+			else if(value instanceof EarAnchor ea) earAnchor = ea;
+			else if(value instanceof TailMode tm) tailMode = tm;
+			else if(value instanceof WingMode wm) wingMode = wm;
+			else throw new IllegalArgumentException("Unknown enum: "+value.getClass());
+			return this;
+		}
+		
+		public Builder setFloat(String name, float value) {
+			switch(name) {
+				case "tailBend0": tailBend0 = value; break;
+				case "tailBend1": tailBend1 = value; break;
+				case "tailBend2": tailBend2 = value; break;
+				case "tailBend3": tailBend3 = value; break;
+				case "chestSize": chestSize = value; break;
+			}
+			return this;
+		}
+		
+		public Builder setInteger(String name, int value) {
+			switch(name) {
+				case "tailSegments": tailSegments = value; break;
+				case "snoutOffset": snoutOffset = value; break;
+				case "snoutWidth": snoutWidth = value; break;
+				case "snoutHeight": snoutHeight = value; break;
+				case "snoutDepth": snoutDepth = value; break;
+			}
 			return this;
 		}
 		

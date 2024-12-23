@@ -1,8 +1,11 @@
 package com.unascribed.ears.common.feature;
 
+import java.util.List;
+
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer.Pass;
+import com.unascribed.ears.common.config.EFCBoolean;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -11,7 +14,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 
 public class EFHorn extends AbstractEarsFeature {
 	public EFHorn() {
-		super(Pass.BASE, false, EarsFeatureType.HORN);
+		super(Pass.BASE, false, EarsFeatureType.HORN, List.of(new EFCBoolean("horn")));
 	}
 
 	@Override

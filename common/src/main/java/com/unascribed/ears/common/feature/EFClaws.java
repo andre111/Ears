@@ -1,10 +1,13 @@
 package com.unascribed.ears.common.feature;
 
+import java.util.List;
+
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.EarsStateType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
+import com.unascribed.ears.common.config.EFCBoolean;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -13,7 +16,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 
 public class EFClaws extends AbstractEarsFeature {
 	public EFClaws() {
-		super(Pass.BASE, false, null);
+		super(Pass.BASE, false, null, List.of(new EFCBoolean("claws")));
 	}
 
 	@Override

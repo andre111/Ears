@@ -35,6 +35,8 @@ public class EarsMod implements ClientModInitializer {
 					FabricLoader.getInstance().getEnvironmentType());
 		}
 	}
+	
+	public static EarsFeatures override = null;
 
 	public static EarsFeatures getEarsFeatures(PlayerEntityRenderState peer) {
 		Identifier skin = peer.skinTextures.texture();

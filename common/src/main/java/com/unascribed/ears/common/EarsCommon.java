@@ -12,6 +12,16 @@ import com.unascribed.ears.api.features.AlfalfaData;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
 import com.unascribed.ears.common.debug.EarsLog;
+import com.unascribed.ears.common.feature.EFChest;
+import com.unascribed.ears.common.feature.EFClaws;
+import com.unascribed.ears.common.feature.EFEars;
+import com.unascribed.ears.common.feature.EFEmissiveSkin;
+import com.unascribed.ears.common.feature.EFEmissiveSkinOverlay;
+import com.unascribed.ears.common.feature.EFHorn;
+import com.unascribed.ears.common.feature.EFSnout;
+import com.unascribed.ears.common.feature.EFTail;
+import com.unascribed.ears.common.feature.EFWings;
+import com.unascribed.ears.common.feature.EarsFeature;
 import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexFlip;
@@ -24,6 +34,17 @@ import com.unascribed.ears.common.util.BitInputStream;
  * Entrypoint to methods that are common to all ports of Ears.
  */
 public class EarsCommon {
+	public static final List<EarsFeature> FEATURES = Collections.unmodifiableList(Arrays.asList(
+			new EFEmissiveSkin(),
+			new EFEmissiveSkinOverlay(),
+			new EFEars(),
+			new EFTail(),
+			new EFClaws(),
+			new EFHorn(),
+			new EFSnout(),
+			new EFChest(),
+			new EFWings()
+	));
 
 	private static final ThreadLocal<float[][]> uvScratch = new ThreadLocal<float[][]>() {
 		@Override

@@ -1,5 +1,7 @@
 package com.unascribed.ears.common.feature;
 
+import java.util.List;
+
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
@@ -8,7 +10,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 
 public class EFEmissiveSkinOverlay extends AbstractEarsFeature {
 	public EFEmissiveSkinOverlay() {
-		super(Pass.OVERLAY, true, null);
+		super(Pass.OVERLAY, true, null, List.of());
 	}
 
 	@Override

@@ -108,6 +108,7 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 
 		@Override
 		protected EarsFeatures getEarsFeatures() {
+			if(EarsMod.override != null) return EarsMod.override;
 			return EarsMod.getEarsFeatures(peer);
 		}
 
