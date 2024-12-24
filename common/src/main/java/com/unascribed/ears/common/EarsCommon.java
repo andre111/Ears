@@ -20,6 +20,7 @@ import com.unascribed.ears.common.feature.EFEmissiveSkinOverlay;
 import com.unascribed.ears.common.feature.EFHorn;
 import com.unascribed.ears.common.feature.EFSnout;
 import com.unascribed.ears.common.feature.EFTail;
+import com.unascribed.ears.common.feature.EFToggles;
 import com.unascribed.ears.common.feature.EFWings;
 import com.unascribed.ears.common.feature.EarsFeature;
 import com.unascribed.ears.common.image.WritableEarsImage;
@@ -43,7 +44,8 @@ public class EarsCommon {
 			new EFHorn(),
 			new EFSnout(),
 			new EFChest(),
-			new EFWings()
+			new EFWings(),
+			new EFToggles()
 	));
 
 	private static final ThreadLocal<float[][]> uvScratch = new ThreadLocal<float[][]>() {

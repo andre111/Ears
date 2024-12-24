@@ -6,6 +6,7 @@ import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCBoolean;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -28,5 +29,12 @@ public class EFHorn extends AbstractEarsFeature {
 			delegate.translate(0, -8, 0);
 			delegate.renderDoubleSided(56, 0, 8, 8, TexRotation.NONE, TexFlip.NONE, QuadGrow.NONE);
 		delegate.pop();
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+		if(!features.horn) return;
+
+		addTemplateRect(image, 56, 0, 8, 8, 0, 255, 0);
 	}
 }

@@ -6,6 +6,7 @@ import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCInteger;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -72,5 +73,24 @@ public class EFSnout extends AbstractEarsFeature {
 				delegate.pop();
 			delegate.pop();
 		delegate.pop();
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+		int snoutWidth = features.snoutWidth;
+		int snoutHeight = features.snoutHeight;
+		int snoutDepth = features.snoutDepth;
+		if(snoutWidth <= 0 || snoutHeight <= 0 || snoutDepth <= 0) return;
+
+		addTemplateRect(image, 0, 2, snoutWidth, snoutHeight, 255, 255, 0);
+		// top
+		addTemplateRect(image, 0, 1, snoutWidth, 1, 255, 225, 0);
+		addTemplateRect(image, 0, 0, snoutWidth, 1, 255, 195, 0);
+		// bottom
+		addTemplateRect(image, 0, 2+snoutHeight, snoutWidth, 1, 255, 165, 0);
+		addTemplateRect(image, 0, 2+snoutHeight+1, snoutWidth, 1, 255, 135, 0);
+		// sides
+		addTemplateRect(image, 7, 0, 1, snoutHeight, 255, 105, 0);
+		addTemplateRect(image, 7, 4, 1, snoutHeight, 255, 75, 0);
 	}
 }

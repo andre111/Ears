@@ -5,6 +5,7 @@ import java.util.List;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 
@@ -39,5 +40,9 @@ public class EFEmissiveSkin extends AbstractEarsFeature {
 			delegate.anchorTo(BodyPart.RIGHT_LEG);
 			EarsRenderer.drawVanillaCuboid(delegate, 0, 16, 4, 12, 4, 0);
 		delegate.pop();
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
 	}
 }

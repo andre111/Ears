@@ -8,6 +8,7 @@ import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCBoolean;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -60,5 +61,15 @@ public class EFClaws extends AbstractEarsFeature {
 				delegate.renderDoubleSided(52, 16, 4, 4, TexRotation.UPSIDE_DOWN, TexFlip.NONE, QuadGrow.NONE);
 			delegate.pop();
 		}
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+		if(!features.claws) return;
+		
+		addTemplateRect(image, 16, 48, 4, 4, 0, 0, 255);
+		addTemplateRect(image, 0, 16, 4, 4, 0, 0, 255);
+		addTemplateRect(image, 44, 48, 4, 4, 0, 0, 255);
+		addTemplateRect(image, 52, 16, 4, 4, 0, 0, 255);
 	}
 }

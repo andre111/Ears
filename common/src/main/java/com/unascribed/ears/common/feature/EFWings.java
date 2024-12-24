@@ -10,6 +10,7 @@ import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCBoolean;
 import com.unascribed.ears.common.config.EFCEnum;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -60,5 +61,9 @@ public class EFWings extends AbstractEarsFeature {
 				delegate.pop();
 			}
 		delegate.pop();
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
 	}
 }

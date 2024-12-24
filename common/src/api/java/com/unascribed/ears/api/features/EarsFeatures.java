@@ -111,10 +111,10 @@ public class EarsFeatures {
 	public final float chestSize;
 	public final WingMode wingMode;
 	public final boolean animateWings;
-	public final boolean capeEnabled; //TODO
-	public final boolean emissive; //TODO
-	public final Slice emissiveSkin; //TODO
-	public final Slice emissiveWing; //TODO
+	public final boolean capeEnabled;
+	public final boolean emissive;
+	public final Slice emissiveSkin;
+	public final Slice emissiveWing;
 	
 	public final AlfalfaData alfalfa; //TODO
 	

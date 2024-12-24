@@ -9,6 +9,7 @@ import com.unascribed.ears.api.registry.EarsStateOverriderRegistry;
 import com.unascribed.ears.common.debug.DebuggingDelegate;
 import com.unascribed.ears.common.debug.EarsLog;
 import com.unascribed.ears.common.feature.EarsFeature;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -153,6 +154,12 @@ public class EarsRenderer {
 			EarsLog.debug(EarsLog.Tag.COMMON_API, "State of {} is being overridden to {} from {} by {}", state, id.getValue(), def, id.getNamespace());
 		}
 		return id.getValue();
+	}
+	
+	public static void addTemplates(WritableEarsImage image, EarsFeatures features) {
+		for(EarsFeature feature : EarsCommon.FEATURES) {
+			feature.addTemplate(image, features);
+		}
 	}
 
 	public static enum Pass {

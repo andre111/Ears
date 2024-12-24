@@ -1,6 +1,5 @@
 package com.unascribed.ears;
 
-import java.io.IOException;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
@@ -108,7 +107,6 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 
 		@Override
 		protected EarsFeatures getEarsFeatures() {
-			if(EarsMod.override != null) return EarsMod.override;
 			return EarsMod.getEarsFeatures(peer);
 		}
 
@@ -150,7 +148,7 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 			if (pngData != null && !((AccessorTextureManager) textureManager).ears$getTextures().containsKey(id)) {
 				try {
 					textureManager.registerTexture(id, new NativeImageBackedTexture(NativeImage.read(toNativeBuffer(pngData))));
-				} catch (IOException e) {
+				} catch (Exception e) {
 					//textureManager.registerTexture(id, MissingSprite.getMissingSpriteTexture());
 				}
 			}

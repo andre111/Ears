@@ -9,6 +9,7 @@ import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCEnum;
 import com.unascribed.ears.common.config.EFCFloat;
 import com.unascribed.ears.common.config.EFCInteger;
+import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -77,5 +78,13 @@ public class EFTail extends AbstractEarsFeature {
 				delegate.translate(0, segHeight, 0);
 			}
 		delegate.pop();
+	}
+
+	@Override
+	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+		TailMode tailMode = features.tailMode;
+		if(tailMode == TailMode.NONE) return;
+		
+		addTemplateRect(image, 56, 16, 8, 12, 255, 0, 0);
 	}
 }
