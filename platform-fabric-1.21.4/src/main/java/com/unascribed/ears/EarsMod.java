@@ -40,10 +40,11 @@ public class EarsMod implements ClientModInitializer {
 		}
 	}
 	
-	public static EarsFeatures override = null;
+	public static EarsFeatures overrideFeatures = null;
+	public static Identifier overrideSkin = null;
 
 	public static EarsFeatures getEarsFeatures(PlayerEntityRenderState peer) {
-		if(override != null) return override;
+		if(overrideFeatures != null) return overrideFeatures;
 		
 		Identifier skin = peer.skinTextures.texture();
 		AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(skin);
@@ -62,20 +63,26 @@ public class EarsMod implements ClientModInitializer {
 	}
 	
 	@SuppressWarnings("resource")
-	public static WritableEarsImage getCopyOfSkin() {
+	public static NativeImage getSkinImage() {
 		Identifier skin = MinecraftClient.getInstance().player.getSkinTextures().texture();
 		AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(skin);
 		if(tex instanceof NativeImageBackedTexture imgTex) {
-			NativeImage img = imgTex.getImage();
-			int[] data = new int[64*64];
-			int i = 0;
-			for(int y=0; y<64; y++) {
-				for(int x=0; x<64; x++) {
-					data[i++] = y < img.getHeight() ? img.getColorArgb(x, y) : 0;
-				}
-			}
-			return new RawEarsImage(data, 64, 64, false);
+			return imgTex.getImage();
 		}
 		return null;
+	}
+	
+	public static WritableEarsImage getCopyOfSkin() {
+		NativeImage img = getSkinImage();
+		if(img == null) return null;
+		
+		int[] data = new int[64*64];
+		int i = 0;
+		for(int y=0; y<64; y++) {
+			for(int x=0; x<64; x++) {
+				data[i++] = y < img.getHeight() ? img.getColorArgb(x, y) : 0;
+			}
+		}
+		return new RawEarsImage(data, 64, 64, false);
 	}
 }
