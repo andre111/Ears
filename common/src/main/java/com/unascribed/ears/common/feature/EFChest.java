@@ -9,8 +9,8 @@ import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCFloat;
 import com.unascribed.ears.common.config.EarsFeatureConfig;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexFlip;
@@ -128,17 +128,17 @@ public class EFChest implements EarsFeature {
 	}
 
 	@Override
-	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
 		if(features.chestSize <= 0) return;
 
-		AbstractEarsFeature.addTemplateRect(image, 20, 22, 8, 4, 255, 0, 255); // BASE
-		AbstractEarsFeature.addTemplateRect(image, 0, 48, 4, 4, 255, 0, 255); // OVERLAY
-		AbstractEarsFeature.addTemplateRect(image, 12, 48, 4, 4, 255, 0, 255); // OVERLAY
+		AbstractEarsFeature.addTemplateRect(images.skin(), 20, 22, 8, 4, 255, 0, 255); // BASE
+		AbstractEarsFeature.addTemplateRect(images.skin(), 0, 48, 4, 4, 255, 0, 255); // OVERLAY
+		AbstractEarsFeature.addTemplateRect(images.skin(), 12, 48, 4, 4, 255, 0, 255); // OVERLAY
 		
-		AbstractEarsFeature.addTemplateRect(image, 56, 44, 8, 4, 255, 0, 255); // BASE
-		AbstractEarsFeature.addTemplateRect(image, 28, 48, 8, 4, 255, 0, 255); // OVERLAY
+		AbstractEarsFeature.addTemplateRect(images.skin(), 56, 44, 8, 4, 255, 0, 255); // BASE
+		AbstractEarsFeature.addTemplateRect(images.skin(), 28, 48, 8, 4, 255, 0, 255); // OVERLAY
 
-		AbstractEarsFeature.addTemplateRect(image, 60, 48, 4, 4, 255, 0, 255); // BASE
-		AbstractEarsFeature.addTemplateRect(image, 48, 48, 4, 4, 255, 0, 255); // OVERLAY
+		AbstractEarsFeature.addTemplateRect(images.skin(), 60, 48, 4, 4, 255, 0, 255); // BASE
+		AbstractEarsFeature.addTemplateRect(images.skin(), 48, 48, 4, 4, 255, 0, 255); // OVERLAY
 	}
 }

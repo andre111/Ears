@@ -10,8 +10,8 @@ import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCBoolean;
 import com.unascribed.ears.common.config.EFCEnum;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexFlip;
@@ -64,6 +64,9 @@ public class EFWings extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+		if(features.wingMode == WingMode.NONE) return;
+		
+		addTemplateRect(images.wing(), 0, 0, 20, 16, 255, 0, 255);
 	}
 }

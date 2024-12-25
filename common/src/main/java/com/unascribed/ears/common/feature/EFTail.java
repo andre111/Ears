@@ -9,8 +9,8 @@ import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCEnum;
 import com.unascribed.ears.common.config.EFCFloat;
 import com.unascribed.ears.common.config.EFCInteger;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexFlip;
@@ -81,10 +81,10 @@ public class EFTail extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
 		TailMode tailMode = features.tailMode;
 		if(tailMode == TailMode.NONE) return;
 		
-		addTemplateRect(image, 56, 16, 8, 12, 255, 0, 0);
+		addTemplateRect(images.skin(), 56, 16, 8, 12, 255, 0, 0);
 	}
 }

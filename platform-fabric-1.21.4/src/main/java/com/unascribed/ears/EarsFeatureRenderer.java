@@ -329,9 +329,8 @@ public class EarsFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState
 			Identifier id = peer.skinTextures.texture();
 			if (src != TexSource.SKIN) {
 				id = Identifier.tryParse(id.getNamespace(), src.addSuffix(id.getPath()));
-			} else if(EarsMod.overrideSkin != null) {
-				id = EarsMod.overrideSkin;
 			}
+			id = EarsMod.overrides.getOrDefault(src, id);
 			return vcp.getBuffer(RenderLayer.getItemEntityTranslucentCull(id));
 		}
 

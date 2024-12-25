@@ -9,7 +9,6 @@ import com.unascribed.ears.api.registry.EarsStateOverriderRegistry;
 import com.unascribed.ears.common.debug.DebuggingDelegate;
 import com.unascribed.ears.common.debug.EarsLog;
 import com.unascribed.ears.common.feature.EarsFeature;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
@@ -18,6 +17,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
 
 import com.unascribed.ears.common.render.IndirectEarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsSkinImages;
 
 public class EarsRenderer {
 	/**
@@ -156,9 +156,9 @@ public class EarsRenderer {
 		return id.getValue();
 	}
 	
-	public static void addTemplates(WritableEarsImage image, EarsFeatures features) {
+	public static void addTemplates(EarsSkinImages images, EarsFeatures features) {
 		for(EarsFeature feature : EarsCommon.FEATURES) {
-			feature.addTemplate(image, features);
+			feature.addTemplate(images, features);
 		}
 	}
 

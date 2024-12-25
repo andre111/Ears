@@ -8,8 +8,8 @@ import com.unascribed.ears.api.features.EarsFeatures.EarAnchor;
 import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.common.EarsRenderer.Pass;
 import com.unascribed.ears.common.config.EFCEnum;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
 import com.unascribed.ears.common.render.EarsRenderDelegate.QuadGrow;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexFlip;
@@ -204,46 +204,46 @@ public class EFEars extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(WritableEarsImage image, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
 		EarMode earMode = features.earMode;
 		if(earMode == EarMode.NONE) return;
 		
 		if (earMode == EarMode.ABOVE) {
-			addTemplateRect(image, 24, 0, 16, 8, 0, 255, 255);
-			addTemplateRect(image, 56, 28, 16, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 24, 0, 16, 8, 0, 255, 255);
+			addTemplateRect(images.skin(), 56, 28, 16, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 		} else if (earMode == EarMode.AROUND) {
-			addTemplateRect(image, 24, 0, 16, 8, 0, 255, 255);
-			addTemplateRect(image, 56, 28, 16, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 24, 0, 16, 8, 0, 255, 255);
+			addTemplateRect(images.skin(), 56, 28, 16, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 
-			addTemplateRect(image, 36, 16, 4, 8, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 12, 16, 4, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 36, 16, 4, 8, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 12, 16, 4, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 
-			addTemplateRect(image, 36, 32, 4, 8, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 12, 32, 4, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 36, 32, 4, 8, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 12, 32, 4, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 		} else if (earMode == EarMode.SIDES || earMode == EarMode.BEHIND || earMode == EarMode.FLOPPY || earMode == EarMode.CROSS || earMode == EarMode.OUT) {
-			addTemplateRect(image, 24, 0, 8, 8, 0, 255, 255);
-			addTemplateRect(image, 56, 28, 8, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 24, 0, 8, 8, 0, 255, 255);
+			addTemplateRect(images.skin(), 56, 28, 8, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 
-			addTemplateRect(image, 32, 0, 8, 8, 0, 255, 255);
-			addTemplateRect(image, 56, 36, 8, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 32, 0, 8, 8, 0, 255, 255);
+			addTemplateRect(images.skin(), 56, 36, 8, 8, 0, 255, 200, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
 		} else if (earMode == EarMode.TALL) {
-			addTemplateRect(image, 24, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 40, 8, 4, 0, 255, 200);
+			addTemplateRect(images.skin(), 24, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 40, 8, 4, 0, 255, 200);
 
-			addTemplateRect(image, 28, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 36, 8, 4, 0, 255, 200);
+			addTemplateRect(images.skin(), 28, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 36, 8, 4, 0, 255, 200);
 
-			addTemplateRect(image, 32, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 32, 8, 4, 0, 255, 200);
+			addTemplateRect(images.skin(), 32, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 32, 8, 4, 0, 255, 200);
 
-			addTemplateRect(image, 36, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 28, 8, 4, 0, 255, 200);
+			addTemplateRect(images.skin(), 36, 0, 8, 4, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 28, 8, 4, 0, 255, 200);
 		} else if (earMode == EarMode.TALL_CROSS) {
-			addTemplateRect(image, 24, 0, 8, 16, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 28, 8, 16, 0, 255, 200);
+			addTemplateRect(images.skin(), 24, 0, 8, 16, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 28, 8, 16, 0, 255, 200);
 
-			addTemplateRect(image, 24, 0, 8, 16, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
-			addTemplateRect(image, 56, 28, 8, 16, 0, 255, 200);
+			addTemplateRect(images.skin(), 24, 0, 8, 16, 0, 255, 255, TexRotation.CW, TexFlip.NONE, TexSource.SKIN);
+			addTemplateRect(images.skin(), 56, 28, 8, 16, 0, 255, 200);
 		}
 	}
 }

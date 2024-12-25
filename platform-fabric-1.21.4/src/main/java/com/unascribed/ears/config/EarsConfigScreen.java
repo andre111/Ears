@@ -2,12 +2,17 @@ package com.unascribed.ears.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.io.Files;
 import com.unascribed.ears.EarsMod;
 import com.unascribed.ears.NativeImageAdapter;
+import com.unascribed.ears.api.Slice;
+import com.unascribed.ears.api.features.AlfalfaData;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsCommon;
+import com.unascribed.ears.common.EarsFeaturesParser;
 import com.unascribed.ears.common.EarsFeaturesStorage;
 import com.unascribed.ears.common.EarsFeaturesWriterV1;
 import com.unascribed.ears.common.EarsRenderer;
@@ -17,7 +22,11 @@ import com.unascribed.ears.common.config.EFCFloat;
 import com.unascribed.ears.common.config.EFCInteger;
 import com.unascribed.ears.common.debug.EarsLog;
 import com.unascribed.ears.common.feature.EarsFeature;
-import com.unascribed.ears.common.image.WritableEarsImage;
+import com.unascribed.ears.common.image.EarsImage;
+import com.unascribed.ears.common.render.EarsSkinImages;
+import com.unascribed.ears.common.render.AbstractEarsRenderDelegate;
+import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
+import com.unascribed.ears.common.util.Alfalfa;
 import com.unascribed.ears.common.util.QDPNG;
 
 import net.minecraft.client.MinecraftClient;
@@ -34,12 +43,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class EarsConfigScreen extends Screen {
-	private static final Identifier modifiedSkinTextureID = Identifier.of("ears", "skinoverride");
+	private static final Identifier SKIN_OVERRIDE_ID = Identifier.of("ears", "skinoverride");
+	private static final Identifier WING_OVERRIDE_ID = Identifier.of("ears", "wingoverride");
 	
 	private final Screen parent;
 	
 	private EarsFeatures features;
 	private boolean showTemplates;
+	
+	private NativeImage importedSkin;
+	private NativeImage importedWing;
 
 	@SuppressWarnings({ "resource", "deprecation" })
 	public EarsConfigScreen(Screen parent) {
@@ -62,11 +75,27 @@ public class EarsConfigScreen extends Screen {
 		noteWidget.setTextColor(0xFFAAAAAA);
 		addDrawable(noteWidget);
 		
-		addDrawableChild(ButtonWidget.builder(Text.literal("Export Skin"), (button) -> exportSkin(features)).dimensions(2, height-18, width/4-10, 16).build());
-		addDrawableChild(CyclingButtonWidget.onOffBuilder(false).build(2 + width/4 + 2, height-18, width/4-10, 16, Text.literal("Show Template"), (button, value) -> {
+		int bw = (width-5*2)/5;
+		addDrawableChild(ButtonWidget.builder(Text.literal("Export Skin"), (button) -> exportSkin(features)).dimensions(2, height-18, bw, 16).build());
+		addDrawableChild(ButtonWidget.builder(Text.literal("Export Wings"), (button) -> exportWings(features)).dimensions(2+bw+2, height-18, bw, 16).build());
+		addDrawableChild(CyclingButtonWidget.onOffBuilder(false).build(2+bw+2+bw+2, height-18, bw, 16, Text.literal("Templates"), (button, value) -> {
 			showTemplates = value;
+			if(!showTemplates) {
+				if(importedSkin != null) {
+					NativeImage skinCopy = new NativeImage(NativeImage.Format.RGBA, 64, 64, true);
+					skinCopy.copyFrom(importedSkin);
+					MinecraftClient.getInstance().getTextureManager().registerTexture(SKIN_OVERRIDE_ID, new NativeImageBackedTexture(skinCopy));
+				}
+				if(importedWing != null) {
+					NativeImage wingCopy = new NativeImage(NativeImage.Format.RGBA, 20, 16, true);
+					wingCopy.copyFrom(importedWing);
+					MinecraftClient.getInstance().getTextureManager().registerTexture(WING_OVERRIDE_ID, new NativeImageBackedTexture(wingCopy));
+				}
+			}
 			update();
 		}));
+		addDrawableChild(ButtonWidget.builder(Text.literal("Import Skin"), (button) -> importSkin()).dimensions(2+bw+2+bw+2+bw+2, height-18, bw, 16).build());
+		addDrawableChild(ButtonWidget.builder(Text.literal("Import Wings"), (button) -> importWings()).dimensions(2+bw+2+bw+2+bw+2+bw+2, height-18, bw, 16).build());
 		
 		//TODO: actual layout
 		//TODO: function to export (+ import?) modified skin texture
@@ -164,31 +193,124 @@ public class EarsConfigScreen extends Screen {
 	private void update() {
 		if(showTemplates) {
 			// copy skin
-			NativeImage image = new NativeImage(NativeImage.Format.RGBA, 64, 64, true);
-			image.copyFrom(EarsMod.getSkinImage());
+			NativeImage skinImage = new NativeImage(NativeImage.Format.RGBA, 64, 64, true);
+			skinImage.copyFrom(EarsMod.getSkinImage());
+			NativeImage wingImage = new NativeImage(NativeImage.Format.RGBA, 20, 16, true);
+			NativeImage wingSrcImage = importedWing != null ? importedWing : EarsMod.getWingImage();
+			wingImage.copyFrom(wingSrcImage);
 			
 			// add templates
-			NativeImageAdapter modifiedSkinImage = new NativeImageAdapter(image);
-			EarsRenderer.addTemplates(modifiedSkinImage, features);
+			NativeImageAdapter modifiedSkinImage = new NativeImageAdapter(skinImage);
+			NativeImageAdapter modifiedWingImage = new NativeImageAdapter(wingImage);
+			EarsRenderer.addTemplates(new EarsSkinImages(modifiedSkinImage, modifiedWingImage), features);
 			
 			// register
-			MinecraftClient.getInstance().getTextureManager().registerTexture(modifiedSkinTextureID, new NativeImageBackedTexture(image));
+			MinecraftClient.getInstance().getTextureManager().registerTexture(SKIN_OVERRIDE_ID, new NativeImageBackedTexture(skinImage));
+			MinecraftClient.getInstance().getTextureManager().registerTexture(WING_OVERRIDE_ID, new NativeImageBackedTexture(wingImage));
 		}
 	}
 	
-	@SuppressWarnings("resource")
 	private void exportSkin(EarsFeatures features) {
-		WritableEarsImage img = EarsMod.getCopyOfSkin();
-		if(img != null) {
+		EarsSkinImages images = EarsMod.getCopyOfSkin();
+		if(images != null) {
 			try {
-				if(showTemplates) EarsRenderer.addTemplates(img, features);
-				EarsFeaturesWriterV1.write(features, img);
-				Files.write(QDPNG.write(img), new File(MinecraftClient.getInstance().runDirectory, showTemplates ? "ears-skin-template.png" : "ears-skin.png"));
+				if(showTemplates) EarsRenderer.addTemplates(images, features);
+				EarsFeaturesWriterV1.write(features, images.skin());
+				Files.write(QDPNG.write(images.skin()), new File(getBaseDir(), showTemplates ? "ears-skin-template.png" : "ears-skin.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void exportWings(EarsFeatures features) {
+		if(features.alfalfa != null && features.alfalfa.data.containsKey("wing")) {
+			try {
+				byte[] data = features.alfalfa.data.get("wing").toByteArray();
+				Files.write(data, new File(getBaseDir(), "ears-wing.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void importSkin() {
+		File file = new File(getBaseDir(), "ears-skin.png");
+		if(file.exists()) {
+			try {
+				byte[] data = Files.toByteArray(file);
+				NativeImage image = NativeImage.read(AbstractEarsRenderDelegate.toNativeBuffer(data));
+				if(image == null) return;
+				if(image.getWidth() == 64 && image.getHeight() == 64) {
+					if(importedSkin != null) importedSkin.close();
+					importedSkin = image;
+					if(importedWing != null) importedWing.close();
+					importedWing = null;
+					
+					EarsImage earsImage = new NativeImageAdapter(importedSkin);
+					AlfalfaData alfalfa = Alfalfa.read(earsImage);
+					features = EarsFeaturesParser.detect(earsImage, alfalfa, png -> new NativeImageAdapter(NativeImage.read(AbstractEarsRenderDelegate.toNativeBuffer(png))));
+					
+					NativeImage skinCopy = new NativeImage(NativeImage.Format.RGBA, 64, 64, true);
+					skinCopy.copyFrom(importedSkin);
+					MinecraftClient.getInstance().getTextureManager().registerTexture(SKIN_OVERRIDE_ID, new NativeImageBackedTexture(skinCopy));
+					
+					//TODO: if alfalfa has wing, load as override
+					if(alfalfa.data.containsKey("wing")) {
+						importedWing = NativeImage.read(AbstractEarsRenderDelegate.toNativeBuffer(alfalfa.data.get("wing").toByteArray()));
+						
+						NativeImage wingCopy = new NativeImage(NativeImage.Format.RGBA, 20, 16, true);
+						wingCopy.copyFrom(importedWing);
+						MinecraftClient.getInstance().getTextureManager().registerTexture(WING_OVERRIDE_ID, new NativeImageBackedTexture(wingCopy));
+					}
+
+					update();
+				} else {
+					image.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void importWings() {
+		File file = new File(getBaseDir(), "ears-wing.png");
+		if(file.exists()) {
+			try {
+				byte[] data = Files.toByteArray(file);
+				NativeImage image = NativeImage.read(AbstractEarsRenderDelegate.toNativeBuffer(data));
+				if(image == null) return;
+				if(image.getWidth() == 20 && image.getHeight() == 16) {
+					if(importedWing != null) importedWing.close();
+					importedWing = image;
+					
+					NativeImage wingCopy = new NativeImage(NativeImage.Format.RGBA, 20, 16, true);
+					wingCopy.copyFrom(importedWing);
+					MinecraftClient.getInstance().getTextureManager().registerTexture(WING_OVERRIDE_ID, new NativeImageBackedTexture(wingCopy));
+					
+					Map<String, Slice> alfalfa = new HashMap<>(features.alfalfa.data);
+					alfalfa.put("wing", new Slice(data));
+					features = EarsFeatures.builder(features).alfalfa(new AlfalfaData(features.alfalfa.version, alfalfa)).build();
+					
+					update();
+				} else {
+					image.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@SuppressWarnings("resource")
+	private File getBaseDir() {
+		return MinecraftClient.getInstance().runDirectory;
 	}
 
 	@Override
@@ -198,9 +320,10 @@ public class EarsConfigScreen extends Screen {
 		context.getMatrices().push();
 		context.getMatrices().translate(0, 0, 120);
 		EarsMod.overrideFeatures = features;
-		if(showTemplates) EarsMod.overrideSkin = modifiedSkinTextureID;
+		if(showTemplates || importedSkin != null) EarsMod.overrides.put(TexSource.SKIN, SKIN_OVERRIDE_ID);
+		if(showTemplates || importedWing != null) EarsMod.overrides.put(TexSource.WING, WING_OVERRIDE_ID);
 		InventoryScreen.drawEntity(context, 0, 0, width/2, height, 100, 0.0625F, mouseX, mouseY, client.player);
-		EarsMod.overrideSkin = null;
+		EarsMod.overrides.clear();
 		EarsMod.overrideFeatures = null;
 		context.getMatrices().pop();
 	}

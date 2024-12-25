@@ -1,5 +1,7 @@
 package com.unascribed.ears;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.unascribed.ears.api.features.EarsFeatures;
@@ -8,6 +10,8 @@ import com.unascribed.ears.common.EarsFeaturesStorage;
 import com.unascribed.ears.common.debug.EarsLog;
 import com.unascribed.ears.common.image.RawEarsImage;
 import com.unascribed.ears.common.image.WritableEarsImage;
+import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
+import com.unascribed.ears.common.render.EarsSkinImages;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -41,7 +45,7 @@ public class EarsMod implements ClientModInitializer {
 	}
 	
 	public static EarsFeatures overrideFeatures = null;
-	public static Identifier overrideSkin = null;
+	public static Map<TexSource, Identifier> overrides = new HashMap<>();
 
 	public static EarsFeatures getEarsFeatures(PlayerEntityRenderState peer) {
 		if(overrideFeatures != null) return overrideFeatures;
@@ -72,17 +76,42 @@ public class EarsMod implements ClientModInitializer {
 		return null;
 	}
 	
-	public static WritableEarsImage getCopyOfSkin() {
+	@SuppressWarnings("resource")
+	public static NativeImage getWingImage() {
+		Identifier skin = MinecraftClient.getInstance().player.getSkinTextures().texture();
+		Identifier id = Identifier.tryParse(skin.getNamespace(), TexSource.WING.addSuffix(skin.getPath()));
+		AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(id);
+		if(tex instanceof NativeImageBackedTexture imgTex) {
+			return imgTex.getImage();
+		}
+		return null;
+	}
+	
+	public static EarsSkinImages getCopyOfSkin() {
 		NativeImage img = getSkinImage();
 		if(img == null) return null;
 		
-		int[] data = new int[64*64];
+		int[] skinData = new int[64*64];
 		int i = 0;
 		for(int y=0; y<64; y++) {
 			for(int x=0; x<64; x++) {
-				data[i++] = y < img.getHeight() ? img.getColorArgb(x, y) : 0;
+				skinData[i++] = y < img.getHeight() ? img.getColorArgb(x, y) : 0;
 			}
 		}
-		return new RawEarsImage(data, 64, 64, false);
+		WritableEarsImage skin = new RawEarsImage(skinData, 64, 64, false);
+		
+		NativeImage wingImage = getWingImage();
+		int[] wingData = new int[20*16];
+		if(wingImage != null) {
+			i = 0;
+			for(int y=0; y<16; y++) {
+				for(int x=0; x<20; x++) {
+					wingData[i++] = y < wingImage.getHeight() ? wingImage.getColorArgb(x, y) : 0;
+				}
+			}
+		}
+		WritableEarsImage wing = new RawEarsImage(wingData, 20, 16, false);
+		
+		return new EarsSkinImages(skin, wing);
 	}
 }
