@@ -27,6 +27,6 @@ public class EFToggles implements EarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 	}
 }

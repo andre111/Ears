@@ -128,7 +128,7 @@ public class EFChest implements EarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		if(features.chestSize <= 0) return;
 
 		AbstractEarsFeature.addTemplateRect(images.skin(), 20, 22, 8, 4, 255, 0, 255); // BASE

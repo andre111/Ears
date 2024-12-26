@@ -64,7 +64,7 @@ public class EFClaws extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		if(!features.claws) return;
 		
 		addTemplateRect(images.skin(), 16, 48, 4, 4, 0, 0, 255);

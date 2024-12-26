@@ -64,7 +64,7 @@ public class EFWings extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		if(features.wingMode == WingMode.NONE) return;
 		
 		addTemplateRect(images.wing(), 0, 0, 20, 16, 255, 0, 255);

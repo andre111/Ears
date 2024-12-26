@@ -156,7 +156,7 @@ public class EarsRenderer {
 		return id.getValue();
 	}
 	
-	public static void addTemplates(EarsSkinImages images, EarsFeatures features) {
+	public static void addTemplates(EarsSkinImages<?> images, EarsFeatures features) {
 		for(EarsFeature feature : EarsCommon.FEATURES) {
 			feature.addTemplate(images, features);
 		}

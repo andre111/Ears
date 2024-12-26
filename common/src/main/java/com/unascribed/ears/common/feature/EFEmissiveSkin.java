@@ -43,6 +43,6 @@ public class EFEmissiveSkin extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 	}
 }

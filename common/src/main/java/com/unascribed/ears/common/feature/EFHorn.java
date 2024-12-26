@@ -32,7 +32,7 @@ public class EFHorn extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		if(!features.horn) return;
 
 		addTemplateRect(images.skin(), 56, 0, 8, 8, 0, 255, 0);

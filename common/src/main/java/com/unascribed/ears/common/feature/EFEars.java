@@ -204,7 +204,7 @@ public class EFEars extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		EarMode earMode = features.earMode;
 		if(earMode == EarMode.NONE) return;
 		

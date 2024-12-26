@@ -81,7 +81,7 @@ public class EFTail extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		TailMode tailMode = features.tailMode;
 		if(tailMode == TailMode.NONE) return;
 		

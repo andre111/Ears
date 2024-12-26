@@ -76,7 +76,7 @@ public class EFSnout extends AbstractEarsFeature {
 	}
 
 	@Override
-	public void addTemplate(EarsSkinImages images, EarsFeatures features) {
+	public void addTemplate(EarsSkinImages<?> images, EarsFeatures features) {
 		int snoutWidth = features.snoutWidth;
 		int snoutHeight = features.snoutHeight;
 		int snoutDepth = features.snoutDepth;
