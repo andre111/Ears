@@ -8,10 +8,7 @@ import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsFeaturesHolder;
 import com.unascribed.ears.common.EarsFeaturesStorage;
 import com.unascribed.ears.common.debug.EarsLog;
-import com.unascribed.ears.common.image.RawEarsImage;
-import com.unascribed.ears.common.image.WritableEarsImage;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
-import com.unascribed.ears.common.render.EarsSkinImages;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -85,33 +82,5 @@ public class EarsMod implements ClientModInitializer {
 			return imgTex.getImage();
 		}
 		return null;
-	}
-	
-	public static EarsSkinImages getCopyOfSkin() {
-		NativeImage img = getSkinImage();
-		if(img == null) return null;
-		
-		int[] skinData = new int[64*64];
-		int i = 0;
-		for(int y=0; y<64; y++) {
-			for(int x=0; x<64; x++) {
-				skinData[i++] = y < img.getHeight() ? img.getColorArgb(x, y) : 0;
-			}
-		}
-		WritableEarsImage skin = new RawEarsImage(skinData, 64, 64, false);
-		
-		NativeImage wingImage = getWingImage();
-		int[] wingData = new int[20*16];
-		if(wingImage != null) {
-			i = 0;
-			for(int y=0; y<16; y++) {
-				for(int x=0; x<20; x++) {
-					wingData[i++] = y < wingImage.getHeight() ? wingImage.getColorArgb(x, y) : 0;
-				}
-			}
-		}
-		WritableEarsImage wing = new RawEarsImage(wingData, 20, 16, false);
-		
-		return new EarsSkinImages(skin, wing);
 	}
 }

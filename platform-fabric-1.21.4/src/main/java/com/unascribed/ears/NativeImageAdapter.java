@@ -11,6 +11,10 @@ public class NativeImageAdapter implements WritableEarsImage {
 	public NativeImageAdapter(NativeImage img) {
 		this.img = img;
 	}
+	
+	public NativeImage getNativeImage() {
+		return img;
+	}
 
 	@Override
 	public int getARGB(int x, int y) {
