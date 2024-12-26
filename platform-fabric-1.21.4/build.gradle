@@ -28,8 +28,8 @@ dependencies {
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	implementation(project(path: ':common', configuration: 'mixinModern'))
-	include(project(path: ':common', configuration: 'mixinModern'))
+	implementation(project(':common'))
+	include(project(':common'))
 }
 
 processResources {

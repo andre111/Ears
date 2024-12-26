@@ -8,94 +8,11 @@ repositories {
 	maven { url 'https://libraries.minecraft.net/' }
 	maven { url 'https://repo.spongepowered.org/maven/' }
 }
-sourceSets {
-	api {
-		compileClasspath += sourceSets.main.compileClasspath
-	}
-	normal {
-		compileClasspath += sourceSets.api.output
-		compileClasspath += sourceSets.api.compileClasspath
-	}
-	main {
-		compileClasspath += sourceSets.normal.output
-		compileClasspath += sourceSets.normal.compileClasspath
-		runtimeClasspath += sourceSets.normal.output
-		runtimeClasspath += sourceSets.normal.runtimeClasspath
-	}
-	mixin {
-		compileClasspath += sourceSets.main.output
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
-	modern {
-		compileClasspath += sourceSets.main.output
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
-}
-configurations {
-	mixinModern {
-		canBeConsumed = true
-	}
-}
 
 jar {
-	from sourceSets.normal.output
-	from sourceSets.main.output
-
 	archiveClassifier = ''
 	
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task apiJar(type: Jar) {
-	from sourceSets.api.output
-	
-	archiveClassifier = 'api'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task apiSourcesJar(type: Jar) {
-	from sourceSets.api.allSource
-	
-	archiveClassifier = 'api-sources'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-def mixinModernJarArtifact = task mixinModernJar(type: Jar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.mixin.output
-	from sourceSets.modern.output
-	
-	archiveClassifier = 'mixin-modern'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-task modernJar(type: Jar) {
-	from sourceSets.api.output
-	from sourceSets.main.output
-	from sourceSets.normal.output
-	from sourceSets.modern.output
-	
-	archiveClassifier = 'modern'
-	
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-build.dependsOn apiJar
-build.dependsOn apiSourcesJar
-build.dependsOn mixinModernJar
-build.dependsOn modernJar
-
-artifacts {
-	mixinModern(mixinModernJarArtifact)
 }
 
 dependencies {

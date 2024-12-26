@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.unascribed.ears.mixin",
+  "package": "com.unascribed.earsnf.mixin",
   "compatibilityLevel": "JAVA_16",
   "plugin": "com.unascribed.ears.common.mixin.EarsMixinConfigPlugin",
   "mixins": [
@@ -10,6 +10,8 @@
     "AccessorHumanoidArmorLayer",
     "AccessorLivingEntityRenderer",
     "AccessorPlayerModel",
+	"MixinCapeLayer",
+	"MixinElytraLayer",
     "MixinHttpTexture",
     "MixinPlayerRenderer"
   ],
