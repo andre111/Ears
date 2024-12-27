@@ -1,15 +1,12 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.EarsStateType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.WingMode;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
-import com.unascribed.ears.common.config.EFCBoolean;
-import com.unascribed.ears.common.config.EFCEnum;
+import com.unascribed.ears.common.config.EarsFeatureConfig;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
@@ -20,7 +17,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
 
 public class EFWings extends AbstractEarsFeature {
 	public EFWings() {
-		super(Pass.BASE, false, EarsFeatureType.WINGS, List.of(new EFCEnum<>("Wings", WingMode.values()), new EFCBoolean("animateWings")));
+		super(Pass.BASE, false, EarsFeatureType.WINGS, EarsFeatureConfig.of("Wings").enm("", WingMode.values()).bool("animateWings", "Animated"));
 	}
 
 	@Override

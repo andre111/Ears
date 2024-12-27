@@ -1,13 +1,10 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.EarsStateType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer;
 import com.unascribed.ears.common.EarsRenderer.Pass;
-import com.unascribed.ears.common.config.EFCFloat;
 import com.unascribed.ears.common.config.EarsFeatureConfig;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsSkinImages;
@@ -18,7 +15,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
 
 public class EFChest implements EarsFeature {
-	private static final List<EarsFeatureConfig<?>> CONFIG = List.of(new EFCFloat("chestSize", 0, 1));
+	private static final EarsFeatureConfig CONFIG = EarsFeatureConfig.of("Chest").flt("chestSize", "Size", 0, 1).create();
 
 	@Override
 	public boolean shouldRender(EarsFeatures features, EarsRenderDelegate delegate, Pass pass, boolean drawingEmissive) {
@@ -123,7 +120,7 @@ public class EFChest implements EarsFeature {
 	}
 
 	@Override
-	public List<EarsFeatureConfig<?>> getConfig() {
+	public EarsFeatureConfig getConfig() {
 		return CONFIG;
 	}
 

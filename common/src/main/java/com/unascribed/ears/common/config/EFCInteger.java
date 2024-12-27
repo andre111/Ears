@@ -3,12 +3,12 @@ package com.unascribed.ears.common.config;
 import com.unascribed.ears.api.features.EarsFeatures;
 
 @SuppressWarnings("deprecation")
-public final class EFCInteger extends EarsFeatureConfig<Integer> {
+public final class EFCInteger extends EFC<Integer> {
 	private final int min;
 	private final int max;
 	
-	public EFCInteger(String name, int min, int max) {
-		super(name);
+	public EFCInteger(String key, String display, int min, int max) {
+		super(key, display);
 		
 		this.min = min;
 		this.max = max;
@@ -24,11 +24,11 @@ public final class EFCInteger extends EarsFeatureConfig<Integer> {
 	
 	@Override
 	public Integer get(EarsFeatures features) {
-		return features.getInteger(getName());
+		return features.getInteger(getKey());
 	}
 
 	@Override
 	public EarsFeatures with(EarsFeatures features, Integer value) {
-		return EarsFeatures.builder(features).setInteger(getName(), value).build();
+		return EarsFeatures.builder(features).setInteger(getKey(), value).build();
 	}
 }

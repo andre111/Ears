@@ -1,11 +1,9 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsRenderer.Pass;
-import com.unascribed.ears.common.config.EFCInteger;
+import com.unascribed.ears.common.config.EarsFeatureConfig;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
@@ -16,7 +14,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 public class EFSnout extends AbstractEarsFeature {
 	public EFSnout() {
 		//TODO: actual snoutOffset should be limited to 8-snoutHeight
-		super(Pass.BASE, false, EarsFeatureType.SNOUT, List.of(new EFCInteger("snoutOffset", 0, 8), new EFCInteger("snoutWidth", 0, 7), new EFCInteger("snoutHeight", 0, 4), new EFCInteger("snoutDepth", 0, 8)));
+		super(Pass.BASE, false, EarsFeatureType.SNOUT, EarsFeatureConfig.of("Snout").integer("snoutOffset", "Offset", 0, 8).integer("snoutWidth", "Width", 0, 7).integer("snoutHeight", "Height", 0, 4).integer("snoutDepth", "Depth", 0, 8));
 	}
 
 	@Override

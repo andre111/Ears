@@ -1,14 +1,10 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.TailMode;
 import com.unascribed.ears.common.EarsRenderer.Pass;
-import com.unascribed.ears.common.config.EFCEnum;
-import com.unascribed.ears.common.config.EFCFloat;
-import com.unascribed.ears.common.config.EFCInteger;
+import com.unascribed.ears.common.config.EarsFeatureConfig;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
@@ -18,7 +14,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexRotation;
 
 public class EFTail extends AbstractEarsFeature {
 	public EFTail() {
-		super(Pass.BASE, false, EarsFeatureType.TAIL, List.of(new EFCEnum<>("Tail", TailMode.values()), new EFCInteger("tailSegments", 0, 4), new EFCFloat("tailBend0", -90, 90), new EFCFloat("tailBend1", -90, 90), new EFCFloat("tailBend2", -90, 90), new EFCFloat("tailBend3", -90, 90)));
+		super(Pass.BASE, false, EarsFeatureType.TAIL, EarsFeatureConfig.of("Tail").enm("", TailMode.values()).integer("tailSegments", "Segments", 0, 4).flt("tailBend0", "First Bend", -90, 90).flt("tailBend1", "Second Bend", -90, 90).flt("tailBend2", "Third Bend", -90, 90).flt("tailBend3", "Fourth Bend", -90, 90));
 	}
 
 	@Override

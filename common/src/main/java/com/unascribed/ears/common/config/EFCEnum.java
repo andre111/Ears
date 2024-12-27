@@ -3,11 +3,11 @@ package com.unascribed.ears.common.config;
 import com.unascribed.ears.api.features.EarsFeatures;
 
 @SuppressWarnings("deprecation")
-public final class EFCEnum<E extends Enum<E>> extends EarsFeatureConfig<E> {
+public final class EFCEnum<E extends Enum<E>> extends EFC<E> {
 	private final E[] values;
 	
 	public EFCEnum(String name, E[] values) {
-		super(name);
+		super("", name);
 		
 		this.values = values;
 	}

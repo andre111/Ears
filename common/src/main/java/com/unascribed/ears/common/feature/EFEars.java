@@ -1,13 +1,11 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.api.features.EarsFeatures.EarAnchor;
 import com.unascribed.ears.api.features.EarsFeatures.EarMode;
 import com.unascribed.ears.common.EarsRenderer.Pass;
-import com.unascribed.ears.common.config.EFCEnum;
+import com.unascribed.ears.common.config.EarsFeatureConfig;
 import com.unascribed.ears.common.render.EarsRenderDelegate;
 import com.unascribed.ears.common.render.EarsSkinImages;
 import com.unascribed.ears.common.render.EarsRenderDelegate.BodyPart;
@@ -18,7 +16,7 @@ import com.unascribed.ears.common.render.EarsRenderDelegate.TexSource;
 
 public class EFEars extends AbstractEarsFeature {
 	public EFEars() {
-		super(Pass.BASE, false, EarsFeatureType.EARS, List.of(new EFCEnum<>("Ears", EarMode.values()), new EFCEnum<>("Ear Anchor", EarAnchor.values())));
+		super(Pass.BASE, false, EarsFeatureType.EARS, EarsFeatureConfig.of("Ears").enm("", EarMode.values()).enm("Anchor", EarAnchor.values()));
 	}
 
 	@Override

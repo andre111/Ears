@@ -18,7 +18,7 @@ public class EarsModMenu implements ModMenuApi {
 	public ConfigScreenFactory<Screen> getModConfigScreenFactory() {
 		return screen -> {
 			if(MinecraftClient.getInstance().player != null) {
-				return new EarsConfigScreen(screen);
+				return new EarsConfigScreen(screen, null, EarsMod.getSkinImage(), EarsMod.getWingImage());
 			} else {
 				Session s = MinecraftClient.getInstance().getSession();
 				return new ConfirmLinkScreen(

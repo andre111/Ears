@@ -1,7 +1,5 @@
 package com.unascribed.ears.common.feature;
 
-import java.util.List;
-
 import com.unascribed.ears.api.EarsFeatureType;
 import com.unascribed.ears.api.features.EarsFeatures;
 import com.unascribed.ears.common.EarsCommon;
@@ -18,13 +16,22 @@ public abstract class AbstractEarsFeature implements EarsFeature {
 	private final Pass pass;
 	private final boolean emissiveOnly;
 	private final EarsFeatureType type;
-	private final List<EarsFeatureConfig<?>> config;
+	private final EarsFeatureConfig config;
 	
-	public AbstractEarsFeature(Pass pass, boolean emissiveOnly, EarsFeatureType type, List<EarsFeatureConfig<?>> config) {
+	public AbstractEarsFeature(Pass pass, boolean emissiveOnly) {
+		this.pass = pass;
+		this.emissiveOnly = emissiveOnly;
+		this.type = null;
+		this.config = null;
+	}
+	public AbstractEarsFeature(Pass pass, boolean emissiveOnly, EarsFeatureType type, EarsFeatureConfig.Builder config) {
+		this(pass, emissiveOnly, type, config.create());
+	}
+	public AbstractEarsFeature(Pass pass, boolean emissiveOnly, EarsFeatureType type, EarsFeatureConfig config) {
 		this.pass = pass;
 		this.emissiveOnly = emissiveOnly;
 		this.type = type;
-		this.config = config == null ? List.of() : config;
+		this.config = config;
 	}
 
 	@Override
@@ -36,7 +43,7 @@ public abstract class AbstractEarsFeature implements EarsFeature {
 	}
 
 	@Override
-	public List<EarsFeatureConfig<?>> getConfig() {
+	public EarsFeatureConfig getConfig() {
 		return config;
 	}
 	

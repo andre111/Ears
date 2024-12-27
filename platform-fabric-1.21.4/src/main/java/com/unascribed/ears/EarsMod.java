@@ -1,5 +1,6 @@
 package com.unascribed.ears;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -82,5 +83,10 @@ public class EarsMod implements ClientModInitializer {
 			return imgTex.getImage();
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("resource")
+	public static File getBaseDir() {
+		return MinecraftClient.getInstance().runDirectory;
 	}
 }
